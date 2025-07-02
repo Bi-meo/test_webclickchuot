@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Test khả năng click chuột</title>
+
+    </head>
+    <body>
+        <center><p style="font-size: 50px; font-weight: 900; color:red;font-family: calibri">Liệu bạn có thể hoàn thành thử thách?</p></center>
+        <div style="height: 300px;">
+            <!-- Thử thách: Click chuột 100 cái trong 15 giây! Để xem trình bạn tới đâu^^ -->
+            <div id="thu_thach"><b></b></div>
+            <div id="anhbimeo"></div>
+        </div>
+        <div id="nut_bam" >START</div>
+        <div id="thoi_gian">15:00</div>
+        <div id="thong_bao_that_bai">
+            <center>
+            <p style="color: red; font-size: 100px; font-weight: 900; -webkit-text-stroke-color: #000; -webkit-text-stroke-width: 2px; margin-top: 30px; margin-bottom: 0px;">THẤT BẠI</p>
+            <p id="diem_thua" style="font-size: 30px;">Bạn chỉ click được XX/100</p>
+            <img id="bi_haha" src="./haha1.png" style="width: 200px; height: 200px; margin-top: -50px;"/>
+            <p id="haha" style="font-size: 30px; font-weight: 350; margin-top: -25px;">Haizzzz gà quá 😌😌😌</p>
+            <button id="bat_dau_lai" onclick="bat_dau_lai()">Bắt đầu lại</button>
+            </center>
+        </div>
+        <div id="auto_click">
+            <center><p style="font-size: 60px; font-weight: 900; color: #ffffff97; margin: 50px;padding-top: 10%;">Bạn ei chơi autoclick là không đẹp đâu:D</p>
+            <button style="background-color: #ffffff97;width: 200px;height: 60px;font-size: 20px;cursor: pointer;user-select: none;" onclick="bat_dau_lai()">Chơi lại</button>
+            </center>
+        </div>
+        <audio id="sfx_thua" src="./âm thanh thua trò chơi.mp3" preload="auto"></audio>
+        <audio id="sfx_thang" src="./âm thanh hoàn thành trò chơi.mp3" preload="auto"></audio>
+        <img id="winner" src="./finished.png">
+
+
+
+
+        <style>
+
+
+            #anhbimeo{
+                height: 200px;
+                background-image: url("./ảnh\ bí.png");
+                background-size: 200px 200px;
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+            #thu_thach{
+                width: 70%;
+                height: 130px;
+                background-color: #ffbd91;
+                border: solid #341500 3px;
+                margin-left: 10%;
+                position: absolute;
+                z-index: 2;
+                font-size: 30px;
+                padding: 20px;
+
+            }
+            #thoi_gian{
+                text-align: center;
+                font-size: 60px;
+                width: 200px;
+                height: 80px;
+                padding: 20px;
+                background-color: #b1b1b1;
+                border: solid #000 3px;
+                position: relative;
+                left: 70%;
+            }
+
+            #thong_bao_that_bai{
+                width: 80%;
+                height: 80%;
+                background-color: #b1b1b1;
+                border: solid #000 5px;
+                position: absolute;
+                top:10%;
+                left: 10%;
+                z-index: 6;
+                display: none;
+            }
+            #bat_dau_lai{
+                background-color: #62daff;
+                width: 200px;
+                height: 60px;
+                font-size: 20px;
+                cursor: pointer;
+                transition: 1s;
+                user-select: none;
+            }
+            #bat_dau_lai:hover{
+                background-color: #62daff;
+                width: 200px;
+                height: 60px;
+                font-size: 20px;
+                transform: scale(1.1,1.1);
+                opacity: 0.9;
+                cursor: pointer;
+                user-select: none;
+            }
+            #nut_bam{
+                width: 500px;
+                height: 150px;
+                margin-left: 20%;
+                margin-top: -30px;
+                padding-top: 50px;
+                background-color: #62ff84;
+                border: solid #0000008d 5px;
+                position: absolute;
+
+                text-align: center;
+                font-size: 70px;
+                font-weight: 900;
+                color: #0000008d;
+
+                cursor: pointer;
+                user-select: none;
+            }
+        
+            div{
+                font-family: calibri;
+            }
+            #auto_click{
+                width: 80%;
+                height: 80%;
+                background-color: #3b1717;
+                border: solid #000 5px;
+                position: absolute;
+                top:10%;
+                left: 10%;
+                z-index: 6;
+                display: none;
+            }
+            #winner{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0px; top:0px;
+                z-index: 10;
+                display: none;
+            }
+
+            /* -----phan giao dien tranh vo------ */
+            @media all and (max-width: 940px) {
+                #anhbimeo {
+                    background-image: url("./ảnh\ bí.png");
+                    background-size: 200px 200px;
+                    background-repeat: no-repeat;
+                    position: relative;
+                    top:140px;
+                }
+                #thoi_gian {
+                    text-align: center;
+                    font-size: 30px;
+                    width: 100px;
+                    height: 40px;
+                    padding: 20px;
+                    background-color: #b1b1b1;
+                    border: solid #000 3px;
+                    position: relative;
+                    right: 50%; top: 20px                   
+                }
+
+            }        
+        </style>
+        
+<!-- ---------------phan javascript----------------- -->
+        <script>
+            var dem_nguoc=1500;interval=null;dem=-1;
+            function dem_gio(){
+                document.getElementById("nut_bam").innerHTML=dem;
+                interval = setInterval(() => {
+                if (dem_nguoc > 0) {
+                    dem_nguoc--;
+                    cap_nhat_tg();
+                } else {
+                    clearInterval(interval);
+                    if(dem<100){
+                        var nghi_ngo_autoclick=false
+
+                        // ------ phần này để thông báo ------
+                        document.getElementById("thong_bao_that_bai").style.display = "block";
+                        var anh_rd=["./haha1.png","./haha2.png","./haha3.png"], text_rd=["Haizzzz gà quá 😌😌😌","Gà điênnnnn 🐧🐧🐧","Tệ thế ^^","🐥🐥🐥👎👎👎"];
+                        var anh = Math.floor(Math.random() * anh_rd.length);
+                        var chu = Math.floor(Math.random() * text_rd.length);
+                        document.getElementById("bi_haha").src = anh_rd[anh];
+                        document.getElementById("haha").innerHTML = text_rd[chu];
+                        document.getElementById("diem_thua").innerHTML = `Bạn chỉ click được ${dem}/100`;
+                        document.getElementById("sfx_thua").play();
+
+                    }
+                    else{
+                        if (nghi_ngo_autoclick){
+                            document.getElementById("auto_click").style.display = "block";
+                            nghi_ngo_autoclick=false;
+                        }
+                        else win();
+                    } 
+                }
+                }, 10);
+            }
+            function hien_thi(ms){
+                const giay=String(Math.floor(ms/100)).padStart(2,0);
+                const miligiay=String(ms%100).padStart(2,0);
+                return `${giay}:${miligiay}`;
+            }
+            function cap_nhat_tg(){
+                document.getElementById("thoi_gian").textContent = hien_thi(dem_nguoc) 
+            }
+
+            function bat_dau_lai(){
+                dem_nguoc=1500;
+                document.getElementById("thong_bao_that_bai").style.display = "none";
+                document.getElementById("auto_click").style.display = "none";
+                cap_nhat_tg()
+                dem=-1;
+                document.getElementById("nut_bam").innerHTML="START";
+            }
+
+            function win(){
+                document.getElementById("sfx_thang").play();
+                document.getElementById("winner").style.display="block";
+                document.documentElement.requestFullscreen();
+
+            }
+
+            //dem so lan click chuot---------------
+            document.getElementById("nut_bam").addEventListener("click", ()=>{
+                if (dem==0){
+                    dem++;
+                    dem_gio();
+                }
+                else{
+                    dem++;
+                    document.getElementById("nut_bam").innerHTML=dem;
+                    }
+                });
+
+
+            //----- check auto click -----
+            var lastClick = Date.now();
+            var clickIntervals = [];
+            var nghi_ngo_autoclick=false
+
+            document.addEventListener("click", () => {
+                let now = Date.now();
+                let interval = now - lastClick;
+                lastClick = now;
+
+                clickIntervals.push(interval);
+
+                if (clickIntervals.length > 30) clickIntervals.shift();
+
+                if (clickIntervals.length === 30) {
+                    const allEqual = clickIntervals.every((val, i, arr) => Math.abs(val - arr[0]) < 5);
+                    if (allEqual && clickIntervals[0] < 150) {
+                    nghi_ngo_autoclick=true;
+                    }
+                }
+            });
+
+        </script>
+    </body>
+</html>
